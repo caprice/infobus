@@ -30,7 +30,7 @@
     <context:annotation-config /> 
 	
 	<!-- 使用annotation 自动注册bean -->
-	<context:component-scan base-package="bree">
+	<context:component-scan base-package="com.gm.infobus">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
@@ -47,7 +47,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="bree" />
+		<property name="typeAliasesPackage" value="com.gm.infobus" />
 		<property name="mapperLocations" value="classpath:/mybatis/*_sql.xml" />
 	    <property name="configLocation" value="classpath:MyBatisConf.xml"/>
 	</bean>
@@ -63,7 +63,7 @@
 	<!-- 直接调用myBatis -->
 	
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="bree.stage.repository" /> 
+		<property name="basePackage" value="com.gm.infobus.repository" /> 
 		<property name="markerInterface" value="com.gm.infobus.mapper.SqlMapper"/>
 		<property name="annotationClass" value="com.gm.infobus.repository.base.MyBatisRepository"/>
 	</bean>
