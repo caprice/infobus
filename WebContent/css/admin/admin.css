@@ -1,0 +1,29 @@
+@import url('reset.css');
+
+.wrapper {
+	overflow: hidden;
+	width: 100%;
+	height: 925px;
+}
+
+.header-wrapper {
+	height: 60px;
+}
+
+.menu-wrapper {
+	width: 150px;
+}
+
+.content-wrapper {
+	
+}
+
+.footer-wrapper {
+	height: 60px;
+}
+
+.menu-bar {
+	height: 100%;
+	width: 100%;
+}
+

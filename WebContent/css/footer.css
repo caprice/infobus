@@ -1,0 +1,48 @@
+
+.pub_footerall {
+    border-top: 1px solid #CCCCCC;
+    clear: both;
+    color: #333333;
+    font: 12px/24px Helvetica,Tahoma,Arial,sans-serif;
+    margin: 10px auto;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+    width: auto;
+}
+.pub_footerall dl {
+    margin: 0;
+    overflow: hidden;
+    padding: 3px 0;
+}
+.pub_footerall dd a {
+    margin: 0;
+    padding: 0 9px;
+}
+.pub_footerall dd a:link, .pub_footerall dd a:visited, .pub_footerall dd a:active {
+    color: #333333;
+    text-decoration: none;
+}
+.pub_footerall dd a:hover {
+    color: #FF0000;
+}
+.pub_footerall dd img {
+    border: 0 none;
+    vertical-align: middle;
+}
+.pub_footerall dt {
+    margin: 0;
+    padding-top: 5px;
+    text-align: center;
+}
+.pub_footerall dt a {
+    display: inline;
+    margin: 5px;
+    padding: 0;
+}
+.pub_footerall dt a img {
+    border: 1px solid #CCCCCC;
+    height: 24px;
+    vertical-align: middle;
+    width: 19px;
+}

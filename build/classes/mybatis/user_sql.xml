@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gm.infobus.repository.UserDAO">
+	<insert id="addUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+		<![CDATA[
+		insert into t_user(id,name) values (#{id},#{name})
+		]]>
+	</insert>
+	
+	<select id="findAllUsers" resultType="User" >
+	<![CDATA[
+		select * from t_user
+	]]>
+	</select>
+	
+	<select id="findAllUsersWithPagination" resultType="User">
+	<![CDATA[
+		select * from t_user
+	]]>
+	</select>
+</mapper>  

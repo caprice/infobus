@@ -1,0 +1,41 @@
+@import url('reset.css');
+
+@import url('_dev.css');
+
+.wrapper {
+	overflow: hidden;
+	width: 100%;
+}
+
+.header-wrapper,.body-wrapper,.footer-wrapper {
+	overflow: hidden;
+	width: 100%;
+}
+
+.inner-wrapper {
+	overflow: hidden;
+	width: 1080px;
+	margin: 0 auto;
+}
+
+.header-inner-wrapper {
+	
+}
+
+.body-inner-wrapper {
+	
+}
+
+.footer-inner-wrapper {
+	
+}
+
+.content-wrapper {
+	float: left;
+	width: 700px;
+}
+
+.sidebar-wrapper {
+	float: right;
+	width: 360px;
+}
