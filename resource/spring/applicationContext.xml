@@ -48,8 +48,8 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.gm.infobus" />
-		<property name="mapperLocations" value="classpath:/mybatis/*_sql.xml" />
-	    <property name="configLocation" value="classpath:MyBatisConf.xml"/>
+		<property name="mapperLocations" value="classpath:/mybatis/sql/*_sql.xml" />
+	    <property name="configLocation" value="classpath:/mybatis/MyBatisConf.xml"/>
 	</bean>
 	
 	<!-- 直接调用myBatis -->

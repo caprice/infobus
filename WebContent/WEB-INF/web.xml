@@ -5,7 +5,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:applicationContext.xml
+			classpath:spring/applicationContext.xml
 		</param-value> 
 	</context-param>
 	
@@ -118,6 +118,6 @@
 
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>CemeteryServer</param-value>
+		<param-value>infobus</param-value>
 	</context-param>
 </web-app>

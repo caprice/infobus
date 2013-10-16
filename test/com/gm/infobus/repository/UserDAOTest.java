@@ -1,4 +1,4 @@
-package bree.test.dao;
+package com.gm.infobus.repository;
 
 import java.util.List;
 
@@ -6,8 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import bree.stage.entity.User;
-import bree.stage.repository.UserDAO;
+import com.gm.infobus.entity.User;
 
 public class UserDAOTest extends BaseConfigurtionTest {
 	@Autowired
@@ -16,7 +15,7 @@ public class UserDAOTest extends BaseConfigurtionTest {
 	@Test
 	public void testAddUser() {
 		User user = new User();
-		user.setName("nana");
+		user.setName("test");
 		userDao.addUser(user);
 		System.out.println("成功往数据库中插入一条数据");
 	}

@@ -1,4 +1,4 @@
-package bree.test.dao;
+package com.gm.infobus.repository;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
