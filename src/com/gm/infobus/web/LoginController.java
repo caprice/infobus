@@ -15,8 +15,11 @@ import com.gm.infobus.service.LoginService;
 import com.gm.infobus.service.MainSearchService;
 
 /**
- * @author lw 登录页面
- */
+* @Description: 
+* @author liuwei
+* @date 2013年11月12日 下午3:02:37
+*
+*/
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController extends BaseController {

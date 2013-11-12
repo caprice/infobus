@@ -1,6 +1,6 @@
-package com.gm.infobus.constant;
+package com.gm.infobus.util;
 
-public interface StageConstant {
+public interface ConstantUtils {
 	public interface Request {
 		String KEY_ARTICLES = "articles";
 		String KEY_CATEGORY = "category";

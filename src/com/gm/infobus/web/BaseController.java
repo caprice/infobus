@@ -10,9 +10,15 @@ import net.sf.json.JsonConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gm.infobus.constant.StageConstant;
+import com.gm.infobus.util.ConstantUtils;
 
 
+/**
+* @Description: 
+* @author liuwei
+* @date 2013年11月12日 下午3:28:34
+*
+*/
 public abstract class BaseController {
 
 	protected Logger logger = Logger.getLogger(this.getClass());
@@ -48,9 +54,9 @@ public abstract class BaseController {
 	 */
 	protected String toJSON(Object resultData, JsonConfig config) {
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(StageConstant.JSON.KEY_RESULT,
-				StageConstant.JSON.RESULT_OK);
-		jsonObj.put(StageConstant.JSON.KEY_DATA, resultData);
+		jsonObj.put(ConstantUtils.JSON.KEY_RESULT,
+				ConstantUtils.JSON.RESULT_OK);
+		jsonObj.put(ConstantUtils.JSON.KEY_DATA, resultData);
 		String resData = null;
 		if (config != null) {
 			resData = JSONObject.fromObject(jsonObj, config).toString();
@@ -70,9 +76,9 @@ public abstract class BaseController {
 	 */
 	protected String toJSONError(String errorMessage) {
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(StageConstant.JSON.KEY_RESULT,
-				StageConstant.JSON.RESULT_FAILED);
-		jsonObj.put(StageConstant.JSON.KEY_MESSAGE, errorMessage);
+		jsonObj.put(ConstantUtils.JSON.KEY_RESULT,
+				ConstantUtils.JSON.RESULT_FAILED);
+		jsonObj.put(ConstantUtils.JSON.KEY_MESSAGE, errorMessage);
 		String resData = JSONObject.fromObject(jsonObj).toString();
 		logger.debug(resData);
 		return resData;

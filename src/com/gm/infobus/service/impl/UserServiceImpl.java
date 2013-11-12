@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUser(User user) {
-		userDAO.addUser(user);
+	public int addUser(User user) {
+		return userDAO.addUser(user);
 	}
 
 	@Override
@@ -33,6 +33,12 @@ public class UserServiceImpl implements UserService {
 		RowBounds rowBounds = new RowBounds(pagination.getCurrentPage(),
 				pagination.getPageSize());
 		return this.userDAO.findAllUsersWithPagination(rowBounds);
+	}
+
+	@Override
+	public boolean isUserRegistered(User user) {
+		int rows = userDAO.isUserRegistered(user);
+		return rows > 0 ? true : false;
 	}
 
 }

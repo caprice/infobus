@@ -10,5 +10,7 @@ public interface UserService {
 
 	public List<User> findAllUsers(Pagination pagination);
 	
-	public void addUser(User user);
+	public int addUser(User user);
+	
+	public boolean isUserRegistered(User user);
 }

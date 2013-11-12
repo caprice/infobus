@@ -7,8 +7,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-@TransactionConfiguration(defaultRollback = true, transactionManager = "transactionManager")
+@ContextConfiguration(locations = "classpath:spring/applicationContext.xml")
+@TransactionConfiguration(defaultRollback = false, transactionManager = "transactionManager")
 @Transactional
 public class BaseConfigurtionTest {
 

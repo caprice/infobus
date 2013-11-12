@@ -5,7 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <c:set value="${pageContext.request.contextPath}" var="contextPath" />
 <script type="text/javascript"
-	src="${contextPath}/js/jquery-1.8.0.min.js'"></script>
+	src="${contextPath}/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="${contextPath}/js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="${contextPath}/css/common.css">
 <link rel="stylesheet" type="text/css" href="${contextPath}/css/content.css">

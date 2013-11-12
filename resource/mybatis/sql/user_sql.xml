@@ -4,20 +4,35 @@
 
 <mapper namespace="com.gm.infobus.repository.UserDAO">
 	<insert id="addUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+	<selectKey resultType="int" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+	</selectKey>
 		<![CDATA[
-		insert into t_user(id,name) values (#{id},#{name})
+		INSERT INTO didi_plate.user (accountName, birth, email, idCard
+			, location, mobile, nickName, password, photo
+			, plate, profession, sex, status, userLog)
+		VALUES (#{accountName}, #{birth}, #{email}, #{idCard}
+			, #{location}, #{mobile}, #{nickName}, #{password}, #{photo}
+			, #{plate}, #{profession}, #{sex}, #{status}, #{userLog})
 		]]>
 	</insert>
 	
 	<select id="findAllUsers" resultType="User" >
 	<![CDATA[
-		select * from t_user
+		select * from user
 	]]>
 	</select>
 	
 	<select id="findAllUsersWithPagination" resultType="User">
 	<![CDATA[
-		select * from t_user
+		select * from user
+	]]>
+	</select>
+	
+	<select id="isUserRegistered" parameterType="User" resultType="int">
+	<![CDATA[
+		select count(*) from user
+		where accountName=#{accountName} and password=#{password}
 	]]>
 	</select>
 </mapper>  

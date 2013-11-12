@@ -10,10 +10,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gm.infobus.constant.StageConstant.JSON;
 import com.gm.infobus.entity.ZoneArea;
 import com.gm.infobus.entity.ZoneJsonEntity;
 import com.gm.infobus.service.MainSearchService;
+import com.gm.infobus.util.ConstantUtils.JSON;
 
 /**
  * 菜单跳转界面，点击相应链接或按钮进入对应功能页面
