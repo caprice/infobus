@@ -3,6 +3,7 @@ package com.gm.infobus.entity;
 
 import java.io.Serializable;
 
+
 /**
 * @Description: A new class
 * @author liuwei
@@ -14,6 +15,7 @@ public class User implements Serializable {
 	private int id;
 	private String accountName;
 	private String password;
+	private String rPassword;
 	private String birth;
 	private String email;
 	private String idCard;
@@ -39,7 +41,6 @@ public class User implements Serializable {
 	public final void setId(int id) {
 		this.id = id;
 	}
-
 	public final String getAccountName() {
 		return accountName;
 	}
@@ -111,7 +112,6 @@ public class User implements Serializable {
 	public final void setPhoto(String photo) {
 		this.photo = photo;
 	}
-
 	public final String getPlate() {
 		return plate;
 	}
@@ -150,6 +150,14 @@ public class User implements Serializable {
 
 	public final void setStatus(int status) {
 		this.status = status;
+	}
+
+	public final String getrPassword() {
+		return rPassword;
+	}
+
+	public final void setrPassword(String rPassword) {
+		this.rPassword = rPassword;
 	}
 
 }

@@ -28,6 +28,17 @@
 	
     <!-- 开启注解配置 -->  
     <context:annotation-config /> 
+    
+    	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="fileEncodings" value="utf-8" />
+		<property name="cacheSeconds" value="120" />
+	</bean>
+
+	
+	<bean id="userValidator" class="com.gm.infobus.entity.validator.UserValidator"/>  
+
 	
 	<!-- 使用annotation 自动注册bean -->
 	<context:component-scan base-package="com.gm.infobus">
