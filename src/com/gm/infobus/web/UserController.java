@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gm.infobus.entity.User;
+import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.service.UserService;
 
 /**
@@ -29,18 +30,25 @@ public class UserController extends BaseController {
 	 *            the condition
 	 * @return the object
 	 */
-	@RequestMapping(value = "register")
+	@RequestMapping(value = "register" )
 	@ResponseBody
-	public String addNewUser(User user) {
+	public JsonResponse addNewUser(User user) {
+		JsonResponse response = new JsonResponse();
 		if (user == null) {
-			return toJSONError("参数有误");
+			response.setResult(false);
+			response.setMsg("参数有误");
+			return response;
 		}
 		int userId = userService.addUser(user);
 		if (userId > 0) {
-			return this.toJSON(user);
+			response.setResult(true);
+			response.setData(user);
+			response.setMsg("注册用户失败，请检查你的网络是否连接11!");
 		} else {
-			return this.toJSONError("注册用户失败，请检查你的网络是否连接!");
+			response.setResult(false);
+			response.setMsg("注册用户失败，请检查你的网络是否连接!");
 		}
+		return response;
 	}
 
 	/**

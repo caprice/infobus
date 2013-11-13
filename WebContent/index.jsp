@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function addNewUser(){
 		var p_url =  '${contextPath}'+'/user/register';
-		var p_data = {"accountName":"","birth":"","email":"","id":0,"idCard":"","location":"","mobile":"","nickName":"","password":"","photo":"","plate":"","profession":"","sex":"","status":0,"userLog":""};
+		var p_data = {"accountName":"liumeng01","email":"meng.liu@gm.com","id":0,"idCard":"","location":"上海","mobile":"","nickName":"dale.liu","password":"123456","photo":"","plate":"test1212","profession":"","sex":"1","status":0,"userLog":""};
 		doAjaxSubmit(p_url, p_data, p_callback);
 	}
 	
