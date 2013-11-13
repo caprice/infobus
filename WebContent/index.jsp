@@ -7,7 +7,7 @@
 <head>
 <script type="text/javascript">
 	function addNewUser() {
-		var p_url = '${contextPath}' + '/user/register';
+		var p_url = '${contextPath}' + '/user/register.do';
 		var jsonuserinfo = $('#form').serializeObject();
 		console.log(jsonuserinfo);
 		doAjaxSubmit(p_url, jsonuserinfo, p_callback);
@@ -15,10 +15,9 @@
 
 	p_callback = function(response) {
 		if (response.result) {
-			$('#info')
-					.html(
-							"Plate has been added to the list successfully. -- "
-									+ response.data.plate);
+			$('#info').html(
+					"Plate has been added to the list successfully. -- "
+							+ response.data.plate);
 			$('#error').hide('slow');
 			$('#info').show('slow');
 
@@ -33,14 +32,17 @@
 
 		}
 	};
-	
-	function checkAccountExisted(obj){
-		var p_url = '${contextPath}' + '/user/verifyAccount';
-		var data = {'accountName':obj.value, 'token':'ed7be964f32bb873d091d6a059729f88'};
-		doAjaxSubmit(p_url, data, function(obj){
-			if(obj.result){
-				
-			}else{
+
+	function checkAccountExisted(obj) {
+		var p_url = '${contextPath}' + '/user/verifyAccount.do';
+		var data = {
+			'accountName' : obj.value,
+			'token' : 'ed7be964f32bb873d091d6a059729f88'
+		};
+		doAjaxSubmit(p_url, data, function(obj) {
+			if (obj.result) {
+
+			} else {
 				alert(obj.msg);
 			}
 		});
@@ -54,11 +56,13 @@
 			<form action="user/addUser" method="post" id="form">
 				<table>
 					<tr>
-						<td colspan="2"><div id="error" class="error" style="display:none"></div></td>
+						<td colspan="2"><div id="error" class="error"
+								style="display: none"></div></td>
 					</tr>
 					<tr>
 						<td>请输入你的用户名 :</td>
-						<td><input type="text" id="accountName" name="accountName" onblur="checkAccountExisted(this)"><br /></td>
+						<td><input type="text" id="accountName" name="accountName"
+							onblur="checkAccountExisted(this)"><br /></td>
 					</tr>
 					<tr>
 						<td>请填写一个昵称 :</td>
@@ -66,7 +70,8 @@
 					</tr>
 					<tr>
 						<td>填写你的个性签名 :</td>
-						<td><textarea id="signature" name="signature" rows="3" cols="20"></textarea><br /></td>
+						<td><textarea id="signature" name="signature" rows="3"
+								cols="20"></textarea><br /></td>
 					</tr>
 					<tr>
 						<td>请选择你的性别 :</td>

@@ -40,15 +40,17 @@
 	<!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 	
-	  <mvc:interceptors>  
-        <mvc:interceptor>  
-            <mvc:mapping path="/user/login/**"/>  
-            <mvc:mapping path="/user/verifyAccount/**"/>  
-            <mvc:mapping path="/user/verifyPlate/**"/>  
-            <bean class="com.gm.infobus.interceptor.UserTokenInterceptor"></bean>  
-        </mvc:interceptor>  
-    </mvc:interceptors>  
-
+<!-- 配置拦截器
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/login/**" />
+			<mvc:mapping path="/user/verifyAccount/**" />
+			<mvc:mapping path="/user/verifyPlate/**" />
+			<bean class="com.gm.infobus.interceptor.UserTokenInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+  -->
+  
 	<!-- 定义JSP文件的位置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
