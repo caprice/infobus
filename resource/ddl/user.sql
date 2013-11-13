@@ -14,5 +14,6 @@ CREATE TABLE `user` (
   `accountName` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` smallint(6) DEFAULT NULL,
+  `signature` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8

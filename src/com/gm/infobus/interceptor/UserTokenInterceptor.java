@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gm.infobus.json.JsonResponse;
@@ -33,9 +34,9 @@ public class UserTokenInterceptor extends HandlerInterceptorAdapter {
 		if (!serverToken.equals(token)) {
 			JsonResponse jsonRes = new JsonResponse();
 			jsonRes.setResult(false);
-			jsonRes.setMsg("无效用户");
+			jsonRes.setMsg("无效操作");
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/json");
+			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
 			pw.println(JSONObject.fromObject(jsonRes).toString());
 			pw.flush();
@@ -43,4 +44,25 @@ public class UserTokenInterceptor extends HandlerInterceptorAdapter {
 		}
 		return true;
 	}
+	
+	/**
+	 * This implementation is empty.
+	 */
+	@Override
+	public void postHandle(
+			HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception {
+		System.out.println("---------test----------");
+	}
+
+	/**
+	 * This implementation is empty.
+	 */
+	@Override
+	public void afterCompletion(
+			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		System.out.println("---------test- after---------");
+	}
+
 }

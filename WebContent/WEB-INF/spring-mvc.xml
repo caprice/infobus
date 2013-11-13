@@ -24,7 +24,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="jacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes">
@@ -39,6 +39,15 @@
 
 	<!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
+	
+	  <mvc:interceptors>  
+        <mvc:interceptor>  
+            <mvc:mapping path="/user/login/**"/>  
+            <mvc:mapping path="/user/verifyAccount/**"/>  
+            <mvc:mapping path="/user/verifyPlate/**"/>  
+            <bean class="com.gm.infobus.interceptor.UserTokenInterceptor"></bean>  
+        </mvc:interceptor>  
+    </mvc:interceptors>  
 
 	<!-- 定义JSP文件的位置 -->
 	<bean

@@ -33,6 +33,18 @@
 
 		}
 	};
+	
+	function checkAccountExisted(obj){
+		var p_url = '${contextPath}' + '/user/verifyAccount';
+		var data = {'accountName':obj.value, 'token':'ed7be964f32bb873d091d6a059729f88'};
+		doAjaxSubmit(p_url, data, function(obj){
+			if(obj.result){
+				
+			}else{
+				alert(obj.msg);
+			}
+		});
+	}
 </script>
 <title>用户注册</title>
 <body>
@@ -46,11 +58,15 @@
 					</tr>
 					<tr>
 						<td>请输入你的用户名 :</td>
-						<td><input type="text" id="accountName" name="accountName"><br /></td>
+						<td><input type="text" id="accountName" name="accountName" onblur="checkAccountExisted(this)"><br /></td>
 					</tr>
 					<tr>
 						<td>请填写一个昵称 :</td>
 						<td><input type="text" id="nickName" name="nickName"><br /></td>
+					</tr>
+					<tr>
+						<td>填写你的个性签名 :</td>
+						<td><textarea id="signature" name="signature" rows="3" cols="20"></textarea><br /></td>
 					</tr>
 					<tr>
 						<td>请选择你的性别 :</td>

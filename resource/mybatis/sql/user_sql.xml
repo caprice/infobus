@@ -10,10 +10,10 @@
 		<![CDATA[
 		INSERT INTO didi_plate.user (accountName, birth, email, idCard
 			, location, mobile, nickName, password, photo
-			, plate, profession, sex, status, userLog)
+			, plate, profession, sex, status, userLog, signature)
 		VALUES (#{accountName}, #{birth}, #{email}, #{idCard}
 			, #{location}, #{mobile}, #{nickName}, #{password}, #{photo}
-			, #{plate}, #{profession}, #{sex}, #{status}, #{userLog})
+			, #{plate}, #{profession}, #{sex}, #{status}, #{userLog}, #{signature})
 		]]>
 	</insert>
 	
