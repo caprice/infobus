@@ -15,5 +15,10 @@ public interface UserDAO extends SqlMapper{
 	
 	public List<User> findAllUsersWithPagination(RowBounds rowBounds) throws DataAccessException;
 	
-	public int isUserRegistered(User user);
+	
+	public int isAccountNameExisted(String accountName);
+
+	public int isPlateExisted(String plate);
+
+	public User getLoginUser(User user);
 }

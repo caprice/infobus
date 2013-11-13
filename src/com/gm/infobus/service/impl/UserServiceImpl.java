@@ -35,10 +35,22 @@ public class UserServiceImpl implements UserService {
 		return this.userDAO.findAllUsersWithPagination(rowBounds);
 	}
 
+
 	@Override
-	public boolean isUserRegistered(User user) {
-		int rows = userDAO.isUserRegistered(user);
+	public boolean isAccountNameExisted(String accountName) {
+		int rows = userDAO.isAccountNameExisted(accountName);
 		return rows > 0 ? true : false;
+	}
+
+	@Override
+	public boolean isPlateExisted(String plate) {
+		int rows = userDAO.isPlateExisted(plate);
+		return rows > 0 ? true : false;
+	}
+
+	@Override
+	public User getLoginUser(User user) {
+		return userDAO.getLoginUser(user);
 	}
 
 }

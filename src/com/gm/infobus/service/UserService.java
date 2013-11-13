@@ -9,8 +9,12 @@ public interface UserService {
 	public List<User> findAllUsers();
 
 	public List<User> findAllUsers(Pagination pagination);
-	
+
 	public int addUser(User user);
-	
-	public boolean isUserRegistered(User user);
+
+	public boolean isAccountNameExisted(String accountName);
+
+	public boolean isPlateExisted(String plate);
+
+	public User getLoginUser(User user);
 }

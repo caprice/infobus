@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>Bree</display-name>
-  <!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>Bree</display-name>
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:spring/applicationContext.xml
-		</param-value> 
+		</param-value>
 	</context-param>
-	
-	
+
+
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -19,17 +22,17 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-	
-	
+
+
 	<!--Spring ApplicationContext 载入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-	<listener>  
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
- 	</listener> 
-	
+
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
 	<!-- Filter 定义 -->
 	<!-- Character Encoding filter -->
 	<filter>
@@ -44,11 +47,19 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+	<filter>
+		<filter-name>userTokenFilter</filter-name>
+		<filter-class>com.gm.infobus.filter.UserTokenFilter</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	<filter-mapping>
+		<filter-name>userTokenFilter</filter-name>
+		<url-pattern>/abc</url-pattern>
+	</filter-mapping>
+
 	<!-- Spring MVC Servlet -->
 	<servlet>
 		<servlet-name>springServlet</servlet-name>
@@ -64,53 +75,26 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!--  
-	<servlet>
-		<servlet-name>CXFServlet</servlet-name>
-		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CXFServlet</servlet-name>
-		<url-pattern>/cxf/*</url-pattern>
-	</servlet-mapping>
-	-->
-	
-	<!-- JMX JSON Agent servlet
-	<servlet>
-      <servlet-name>jolokia-agent</servlet-name>
-      <servlet-class>org.jolokia.http.AgentServlet</servlet-class>
-      <load-on-startup>3</load-on-startup>
-    </servlet>
+	<!-- <servlet> <servlet-name>CXFServlet</servlet-name> <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class> 
+		</servlet> <servlet-mapping> <servlet-name>CXFServlet</servlet-name> <url-pattern>/cxf/*</url-pattern> 
+		</servlet-mapping> -->
 
-    <servlet-mapping>
-      <servlet-name>jolokia-agent</servlet-name>
-      <url-pattern>/jolokia/*</url-pattern>
-    </servlet-mapping>
-	-->
+	<!-- JMX JSON Agent servlet <servlet> <servlet-name>jolokia-agent</servlet-name> 
+		<servlet-class>org.jolokia.http.AgentServlet</servlet-class> <load-on-startup>3</load-on-startup> 
+		</servlet> <servlet-mapping> <servlet-name>jolokia-agent</servlet-name> <url-pattern>/jolokia/*</url-pattern> 
+		</servlet-mapping> -->
 
 
-	<!-- Cache Control Header filter 
-	<filter>
-		<filter-name>cacheControlHeaderFilter</filter-name>
-		<filter-class>org.springside.examples.showcase.demos.web.CacheControlHeaderFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>cacheControlHeaderFilter</filter-name>
-		<url-pattern>/static/*</url-pattern>
-	</filter-mapping>
-	-->
+	<!-- Cache Control Header filter <filter> <filter-name>cacheControlHeaderFilter</filter-name> 
+		<filter-class>org.springside.examples.showcase.demos.web.CacheControlHeaderFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>cacheControlHeaderFilter</filter-name> 
+		<url-pattern>/static/*</url-pattern> </filter-mapping> -->
 
-	<!-- SiteMesh Web-Page Layout filter
-	<filter>
-		<filter-name>sitemeshFilter</filter-name>
-		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>sitemeshFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	-->
-	
+	<!-- SiteMesh Web-Page Layout filter <filter> <filter-name>sitemeshFilter</filter-name> 
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>sitemeshFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
 	<!-- 加载首页 -->
 	<welcome-file-list>
 		<welcome-file>/index.jsp</welcome-file>

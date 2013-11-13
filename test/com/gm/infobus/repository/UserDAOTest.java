@@ -56,9 +56,9 @@ public class UserDAOTest extends BaseConfigurtionTest {
 	public void testIsUserRegistered() {
 		User user = new User();
 		user.setAccountName("liumeng1");
-		user.setPassword("123456");
-		int rows = userDao.isUserRegistered(user);
-		System.out.println("rows = "+ rows);
+//		user.setPassword("123456");
+//		int rows = userDao.isUserRegistered(user);
+//		System.out.println("rows = "+ rows);
 
 	}
 }
