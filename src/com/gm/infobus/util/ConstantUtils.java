@@ -2,7 +2,7 @@ package com.gm.infobus.util;
 
 public interface ConstantUtils {
 	public final static String SALT_KEY = "GM";
-	public static final String TOKEN_KEY = "DiDi";
+	public static final String TOKEN_KEY = "DiDi7538";
 	public interface Request {
 		String KEY_ARTICLES = "articles";
 		String KEY_CATEGORY = "category";

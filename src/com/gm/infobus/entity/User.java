@@ -26,7 +26,7 @@ public class User implements Serializable {
 	private String plate;//车牌号
 	private String profession;//职业
 	private String sex;//性别：0-男 1-女
-	private String signature;
+	private String signature;//个人签名
 	private String userLog;
 	private int status;
 

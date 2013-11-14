@@ -21,12 +21,18 @@ public class BaseValidator implements Validator {
 	}
 
 	protected boolean isValidEmail(String email) {
+		if (email == null) {
+			return false;
+		}
 		Pattern regex = Pattern.compile(EMAIL_PATTERN);
 		Matcher matcher = regex.matcher(email);
 		return matcher.matches();
 	}
 
 	protected boolean isValidMobileNumber(String mobile) {
+		if (mobile == null) {
+			return false;
+		}
 		Pattern regex = Pattern.compile(MOBILE_PATTERN);
 		Matcher matcher = regex.matcher(mobile);
 		return matcher.matches();

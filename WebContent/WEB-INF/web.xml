@@ -56,7 +56,7 @@
 		</init-param>
 		<init-param>
 			<param-name>excludedUrls</param-name>
-			<param-value>/infobus/user/register.do</param-value>
+			<param-value>/user/register.do;/user/verifyAccount.do;/user/verifyPlate.do</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

@@ -82,6 +82,7 @@ public class UserController extends BaseController {
 				.isAccountNameExisted(accountName);
 		if (!isAccountNameExisted) {
 			response.setResult(true);
+			response.setMsg("用户名不存在,可以注册!");
 		} else {
 			response.setResult(false);
 			response.setMsg("用户名已经存在!");

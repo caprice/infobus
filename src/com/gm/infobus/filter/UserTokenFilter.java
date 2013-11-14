@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,13 @@ import com.gm.infobus.service.UserService;
 import com.gm.infobus.util.ConstantUtils;
 import com.gm.infobus.util.MD5;
 
+/**
+* @Description: check the token from client. If the token value doesn't equals to the value of server side, 
+* it tells user that his/her request is not valid.
+* @author liuwei
+* @date 2013年11月14日 上午9:27:03
+*
+*/
 @Component
 public class UserTokenFilter implements Filter {
 	public static final String EXCLUDED_URLS = "excludedUrls";
@@ -59,7 +67,7 @@ public class UserTokenFilter implements Filter {
 			if (!serverToken.equals(token)) {
 				JsonResponse jsonRes = new JsonResponse();
 				jsonRes.setResult(false);
-				jsonRes.setMsg("无效用户");
+				jsonRes.setMsg("无效请求.");
 				res.setCharacterEncoding("UTF-8");
 				res.setContentType("text/html");
 				PrintWriter pw = res.getWriter();
@@ -73,7 +81,7 @@ public class UserTokenFilter implements Filter {
 	}
 
 	/**
-	 * 
+	 * Indicates whether current url is going to the logic of the filter
 	 * @param request
 	 * @return
 	 */
@@ -101,8 +109,16 @@ public class UserTokenFilter implements Filter {
 	}
 
 	/**
-	 * Get list of Strings to be replaced
-	 */
+	* @Title: processConfig
+	* @Description: TODO(这里用一句话描述这个方法的作用)
+	* @return:void
+	* @author: liuwei
+	* @date: 2013年11月14日
+	* Modification History:
+	* Date  Author  Version  Description
+	* ---------------------------------------------------------*
+	* 2013年11月14日  liuwei v1.0.0   修改原因
+	*/
 	protected void processConfig() {
 		if (this.filterConfig == null) {
 			this.initialized = false;
@@ -119,7 +135,7 @@ public class UserTokenFilter implements Filter {
 	}
 
 	/**
-	 * Insert method description here.
+	 * read params from web.xml
 	 * 
 	 * @param parameterName
 	 * 
@@ -131,9 +147,9 @@ public class UserTokenFilter implements Filter {
 			this.initialized = false;
 			return paramValueList;
 		}
-		final String[] parameterValueArray = parameterValue.split(",");
+		final String[] parameterValueArray = parameterValue.split(";");
 		for (int i = 0; i < parameterValueArray.length; i++) {
-			paramValueList.add(parameterValueArray[i]);
+			paramValueList.add(StringUtils.trim(parameterValueArray[i]));
 		}
 		return paramValueList;
 	}

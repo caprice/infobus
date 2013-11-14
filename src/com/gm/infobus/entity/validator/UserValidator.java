@@ -31,7 +31,7 @@ public class UserValidator extends BaseValidator {
 	public void validate(Object obj, Errors errors) {
 		ValidationUtils.rejectIfEmpty(errors, "accountName", "用户名不能为空.");
 		User user = (User) obj;
-		if (user.getPassword() == null || user.getPassword().length() < 6
+		if (user.getPassword() == null || user.getPassword().length() < 3
 				|| user.getPassword().length() > 128) {
 			errors.rejectValue("password", "密码长度不能小于3位并且不能大于128位.");
 		}
@@ -44,6 +44,7 @@ public class UserValidator extends BaseValidator {
 		if (!this.isValidMobileNumber(user.getMobile())) {
 			errors.rejectValue("mobile", "不是一个正确的手机号码.");
 		}
+		ValidationUtils.rejectIfEmpty(errors, "plate", "车牌号码不能为空.");
 	}
 
 }
