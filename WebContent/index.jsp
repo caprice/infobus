@@ -14,10 +14,10 @@
 	}
 
 	p_callback = function(response) {
-		if (response.result) {
+		if (response.result == 0) {
 			$('#info').html(
 					"Plate has been added to the list successfully. -- "
-							+ response.data.plate);
+							+ response.data[0].plate);
 			$('#error').hide('slow');
 			$('#info').show('slow');
 
@@ -40,7 +40,7 @@
 			'token' : 'ed7be964f32bb873d091d6a059729f88'
 		};
 		doAjaxSubmit(p_url, data, function(obj) {
-			if (obj.result) {
+			if (obj.result == 0) {
 
 			} else {
 				alert(obj.msg);

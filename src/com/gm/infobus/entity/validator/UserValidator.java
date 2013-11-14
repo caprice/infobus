@@ -38,12 +38,12 @@ public class UserValidator extends BaseValidator {
 		if (!user.getPassword().equals(user.getrPassword())) {
 			errors.rejectValue("rPassword", "两次填写密码不一致.");
 		}
-		if (!this.isValidEmail(user.getEmail())) {
-			errors.rejectValue("email", "不是有效的email.");
-		}
-		if (!this.isValidMobileNumber(user.getMobile())) {
-			errors.rejectValue("mobile", "不是一个正确的手机号码.");
-		}
+//		if (!this.isValidEmail(user.getEmail())) {
+//			errors.rejectValue("email", "不是有效的email.");
+//		}
+//		if (!this.isValidMobileNumber(user.getMobile())) {
+//			errors.rejectValue("mobile", "不是一个正确的手机号码.");
+//		}
 		ValidationUtils.rejectIfEmpty(errors, "plate", "车牌号码不能为空.");
 	}
 

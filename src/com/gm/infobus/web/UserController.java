@@ -1,5 +1,6 @@
 package com.gm.infobus.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -54,15 +55,17 @@ public class UserController extends BaseController {
 					ConstantUtils.SALT_KEY));
 			int userId = userService.addUser(user);
 			if (userId > 0) {
-				response.setResult(true);
+				response.setResult(ConstantUtils.JSON.RESULT_OK);
 				response.setData(user);
+				response.setMsg("注册成功!");
 			} else {
-				response.setResult(false);
+				response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 				response.setMsg("注册用户失败，请检查你的网络是否连接!");
 			}
 		} else {
-			response.setResult(false);
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setData(result.getAllErrors());
+			response.setMsg("注册失败!");
 		}
 
 		return response;
@@ -81,10 +84,10 @@ public class UserController extends BaseController {
 		boolean isAccountNameExisted = userService
 				.isAccountNameExisted(accountName);
 		if (!isAccountNameExisted) {
-			response.setResult(true);
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setMsg("用户名不存在,可以注册!");
 		} else {
-			response.setResult(false);
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("用户名已经存在!");
 		}
 
@@ -103,9 +106,9 @@ public class UserController extends BaseController {
 		JsonResponse response = new JsonResponse();
 		boolean isPlateExisted = userService.isPlateExisted(plate);
 		if (!isPlateExisted) {
-			response.setResult(true);
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
 		} else {
-			response.setResult(false);
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("车牌号已经存在!");
 		}
 
@@ -126,11 +129,11 @@ public class UserController extends BaseController {
 				ConstantUtils.SALT_KEY));
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
-			response.setResult(true);
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setData(user);
 			response.setMsg("登录成功.");
 		} else {
-			response.setResult(false);
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("用户名或者密码错误.");
 		}
 

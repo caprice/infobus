@@ -63,10 +63,11 @@ public class UserTokenFilter implements Filter {
 			String serverToken = "";
 			if (isAccountNameExisted) {
 				serverToken = MD5.encode(ConstantUtils.TOKEN_KEY + accountName);
+				this.logger.debug("sever token is : "+ serverToken);
 			}
 			if (!serverToken.equals(token)) {
 				JsonResponse jsonRes = new JsonResponse();
-				jsonRes.setResult(false);
+				jsonRes.setResult(ConstantUtils.JSON.RESULT_FAILED);
 				jsonRes.setMsg("无效请求.");
 				res.setCharacterEncoding("UTF-8");
 				res.setContentType("text/html");
