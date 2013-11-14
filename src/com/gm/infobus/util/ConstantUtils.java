@@ -14,8 +14,8 @@ public interface ConstantUtils {
 		String KEY_MESSAGE = "message";
 		String KEY_DATA = "data";
 
-		String RESULT_OK = "ok";
-		String RESULT_FAILED = "failed";
+		String RESULT_OK = "0";
+		String RESULT_FAILED = "-1";
 	}
 	
 	public interface JSP {

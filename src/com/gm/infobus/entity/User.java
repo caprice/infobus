@@ -3,6 +3,8 @@ package com.gm.infobus.entity;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 
 /**
 * @Description: A new class
@@ -14,7 +16,9 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id; //自增id
 	private String accountName;//用户名
+	@JsonIgnore 
 	private String password;//密码
+	@JsonIgnore 
 	private String rPassword;//确认密码
 	private String birth;//出生年月日
 	private String email;//email

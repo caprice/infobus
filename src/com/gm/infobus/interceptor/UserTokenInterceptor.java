@@ -33,7 +33,7 @@ public class UserTokenInterceptor extends HandlerInterceptorAdapter {
 		}
 		if (!serverToken.equals(token)) {
 			JsonResponse jsonRes = new JsonResponse();
-			jsonRes.setResult(false);
+			jsonRes.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			jsonRes.setMsg("无效操作");
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html");
