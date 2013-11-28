@@ -59,7 +59,7 @@ public class UserTokenFilter implements Filter {
 		if (this.isApplicable(request)) {
 			String token = request.getParameter("token");
 			String accountName = request.getParameter("accountName");
-			boolean isAccountNameExisted = userService.isAccountNameExisted(accountName);
+			boolean isAccountNameExisted = userService.isUserNameExisted(accountName);
 			String serverToken = "";
 			if (isAccountNameExisted) {
 				serverToken = MD5.encode(ConstantUtils.TOKEN_KEY + accountName);

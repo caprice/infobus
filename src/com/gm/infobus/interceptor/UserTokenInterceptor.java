@@ -26,7 +26,7 @@ public class UserTokenInterceptor extends HandlerInterceptorAdapter {
 		String token = request.getParameter("token");
 		String accountName = request.getParameter("accountName");
 		boolean isAccountNameExisted = userService
-				.isAccountNameExisted(accountName);
+				.isUserNameExisted(accountName);
 		String serverToken = "";
 		if (isAccountNameExisted) {
 			serverToken = MD5.encode(ConstantUtils.TOKEN_KEY + accountName);

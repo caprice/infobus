@@ -3,49 +3,100 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gm.infobus.repository.UserDAO">
-	<insert id="addUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-	<selectKey resultType="int" order="AFTER" keyProperty="id">
-	SELECT LAST_INSERT_ID()
-	</selectKey>
+	<insert id="addUser" parameterType="User">
 		<![CDATA[
-		INSERT INTO didi_plate.user (accountName, birth, email, idCard
-			, location, mobile, nickName, password, photo
-			, plate, profession, sex, status, userLog, signature)
-		VALUES (#{accountName}, #{birth}, #{email}, #{idCard}
-			, #{location}, #{mobile}, #{nickName}, #{password}, #{photo}
-			, #{plate}, #{profession}, #{sex}, #{status}, #{userLog}, #{signature})
+		INSERT INTO didi_plate.user (username, name, password, email
+			, status, createDate, updateDate)
+		VALUES (#{userName}, #{name}, #{password}, #{email}
+			, #{status},#{createDate},#{updateDate})
 		]]>
 	</insert>
-	
-	<select id="findAllUsers" resultType="User" >
+
+	<insert id="addUserDetail" parameterType="UserDetail">
+		<![CDATA[
+		INSERT INTO didi_plate.userdetail
+		(username,age,birth,idcard,location,nickname,phone,plate,profession,sex,signature)
+		VALUES(#{userName},#{age},#{birth},#{idCard},#{location},#{nickName},#{phone},#{plate},#{profession},#{sex},#{signature}
+		);
+		]]>
+	</insert>
+
+	<update id="updateUserDetail" parameterType="UserDetail">
+		<![CDATA[
+		UPDATE didi_plate.userdetail
+		<set>
+        <if test="age != null">username=#{username},</if>
+        <if test="birth != null">password=#{password},</if>
+        <if test="idcard != null">email=#{email},</if>
+        <if test="location != null">bio=#{bio},</if>
+        <if test="nickname != null">bio=#{bio},</if>
+        <if test="location != null">bio=#{bio},</if>
+        <if test="phone != null">bio=#{bio},</if>
+        <if test="plate != null">bio=#{bio},</if>
+        <if test="profession != null">bio=#{bio},</if>
+        <if test="sex != null">bio=#{bio},</if>
+        <if test="signature != null">bio=#{bio},</if>
+        </set>
+        WHERE username = #{userName}
+		]]>
+	</update>
+
+	<select id="findAllUsers" resultType="User">
 	<![CDATA[
 		select * from user
 	]]>
 	</select>
-	
+
 	<select id="findAllUsersWithPagination" resultType="User">
 	<![CDATA[
 		select * from user
 	]]>
 	</select>
-	
-	<select id="getLoginUser" parameterType="User" resultType="User">
+
+	<select id="getLoginUser" parameterType="User" resultMap="userResult">
 	<![CDATA[
-		select * from user
-		where accountName=#{accountName} and password=#{password}
+	select u.username, u.name, u.email, u.createDate, u.updateDate, ud.nickname, ud.plate, 
+	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location
+	from user u join userdetail ud on u.username = ud.username where u.username = ''
+	where username=#{username} and password=#{password}
 	]]>
 	</select>
-	
-		<select id="isAccountNameExisted" parameterType="java.lang.String" resultType="int">
+
+	<resultMap id="userResult" type="User">
+		<id property="userName" column="username" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="createDate" column="createDate" />
+		<result property="update" column="updateDate" />
+		<association property="userDetail" javaType="UserDetail" resultMap="userDetailMap" />
+	</resultMap>
+
+	<resultMap id="userDetailMap" type="UserDetail">
+		<id property="userName" column="username" />
+		<result property="nickname" column="nickname" />
+		<result property="plate" column="plate" />
+		<result property="phone" column="phone" />
+		<result property="idcard" column="idcard" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="birth" column="birth" />
+		<result property="profession" column="profession" />
+		<result property="signature" column="signature" />
+		<result property="location" column="location" />
+	</resultMap>
+
+	<select id="isUserNameExisted" parameterType="java.lang.String"
+		resultType="int">
 	<![CDATA[
 		select count(*) from user
-		where accountName=#{accountName}
+		where username=#{userName}
 	]]>
 	</select>
-	
-		<select id="isPlateExisted" parameterType="java.lang.String" resultType="int">
+
+	<select id="isPlateExisted" parameterType="java.lang.String"
+		resultType="int">
 	<![CDATA[
-		select count(*) from user
+		select count(*) from userdetail
 		where plate=#{plate}
 	]]>
 	</select>

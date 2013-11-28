@@ -8,11 +8,12 @@
 <script type="text/javascript">
 	function addNewUser() {
 		var p_url = '${contextPath}' + '/user/register.do';
-		var jsonuserinfo = $('#form').serializeObject();
+		var jsonuserinfo = $('#form').form2json();
 		console.log(jsonuserinfo);
 		doAjaxSubmit(p_url, jsonuserinfo, p_callback);
 	}
 
+	
 	p_callback = function(response) {
 		if (response.result == 0) {
 			$('#info').html(
@@ -36,7 +37,7 @@
 	function checkAccountExisted(obj) {
 		var p_url = '${contextPath}' + '/user/verifyAccount.do';
 		var data = {
-			'accountName' : obj.value,
+			'userName' : obj.value,
 			'token' : 'ed7be964f32bb873d091d6a059729f88'
 		};
 		doAjaxSubmit(p_url, data, function(obj) {
@@ -61,22 +62,22 @@
 					</tr>
 					<tr>
 						<td>请输入你的用户名 :</td>
-						<td><input type="text" id="accountName" name="accountName"
+						<td><input type="text" id="userName" name="userName"
 							onblur="checkAccountExisted(this)"><br /></td>
 					</tr>
 					<tr>
 						<td>请填写一个昵称 :</td>
-						<td><input type="text" id="nickName" name="nickName"><br /></td>
+						<td><input type="text" id="userDetail.nickName" name="userDetail.nickName"><br /></td>
 					</tr>
 					<tr>
 						<td>填写你的个性签名 :</td>
-						<td><textarea id="signature" name="signature" rows="3"
+						<td><textarea id="userDetail.signature" name="userDetail.signature" rows="3"
 								cols="20"></textarea><br /></td>
 					</tr>
 					<tr>
 						<td>请选择你的性别 :</td>
-						<td><input type="radio" id="sex0" name="sex" value="0">男
-							<input type="radio" id="sex1" name="sex" value="1">女</td>
+						<td><input type="radio" id="sex0" name="userDetail.sex" value="0">男
+							<input type="radio" id="sex1" name="userDetail.sex" value="1">女</td>
 					</tr>
 					<tr>
 						<td>密码 :</td>
@@ -92,11 +93,11 @@
 					</tr>
 					<tr>
 						<td>手机:</td>
-						<td><input type="text" id="mobile" name="mobile"><br /></td>
+						<td><input type="text" id="userDetail.phone" name="userDetail.phone"><br /></td>
 					</tr>
 					<tr>
 						<td>车牌:</td>
-						<td><input type="text" id="plate" name="plate"><br /></td>
+						<td><input type="text" id="userDetail.plate" name="userDetail.plate"><br /></td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="button" value="Save"

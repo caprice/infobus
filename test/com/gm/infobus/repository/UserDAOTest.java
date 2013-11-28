@@ -15,10 +15,10 @@ public class UserDAOTest extends BaseConfigurtionTest {
 	@Test
 	public void testAddUser() {
 		User user = new User();
-		user.setAccountName("liumeng1");
+//		user.setAccountName("liumeng1");
 		user.setPassword("123456");
-		user.setPlate("沪MB2342");
-		user.setNickName("小鬼");
+//		user.setPlate("沪MB2342");
+//		user.setNickName("小鬼");
 		userDao.addUser(user);
 		System.out.println("成功往数据库中插入一条数据");
 	}
@@ -55,7 +55,7 @@ public class UserDAOTest extends BaseConfigurtionTest {
 	@Test
 	public void testIsUserRegistered() {
 		User user = new User();
-		user.setAccountName("liumeng1");
+//		user.setAccountName("liumeng1");
 //		user.setPassword("123456");
 //		int rows = userDao.isUserRegistered(user);
 //		System.out.println("rows = "+ rows);

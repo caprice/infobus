@@ -16,6 +16,7 @@ public interface ConstantUtils {
 
 		String RESULT_OK = "0";
 		String RESULT_FAILED = "-1";
+		String RESULT_VALIDATION_FAILED = "-2";
 	}
 	
 	public interface JSP {

@@ -1,13 +1,11 @@
 package com.gm.infobus.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,26 +46,18 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "register")
 	@ResponseBody
-	public JsonResponse addNewUser(@Valid User user, BindingResult result) {
+	public JsonResponse addNewUser(@Valid @RequestBody User user) {
 		JsonResponse response = new JsonResponse();
-		if (!result.hasErrors()) {
-			user.setPassword(MD5.encode(user.getPassword(),
-					ConstantUtils.SALT_KEY));
-			int userId = userService.addUser(user);
-			if (userId > 0) {
-				response.setResult(ConstantUtils.JSON.RESULT_OK);
-				response.setData(user);
-				response.setMsg("注册成功!");
-			} else {
-				response.setResult(ConstantUtils.JSON.RESULT_FAILED);
-				response.setMsg("注册用户失败，请检查你的网络是否连接!");
-			}
+		user.setPassword(MD5.encode(user.getPassword()));
+		int userId = userService.addUser(user);
+		if (userId > 0) {
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
+			response.setData(user);
+			response.setMsg("注册成功!");
 		} else {
 			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
-			response.setData(result.getAllErrors());
-			response.setMsg("注册失败!");
+			response.setMsg("注册用户失败，请检查你的网络是否连接!");
 		}
-
 		return response;
 	}
 
@@ -79,10 +69,9 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "verifyAccount")
 	@ResponseBody
-	public JsonResponse verifyUser(String accountName) {
+	public JsonResponse verifyUser(String userName) {
 		JsonResponse response = new JsonResponse();
-		boolean isAccountNameExisted = userService
-				.isAccountNameExisted(accountName);
+		boolean isAccountNameExisted = userService.isUserNameExisted(userName);
 		if (!isAccountNameExisted) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setMsg("用户名不存在,可以注册!");

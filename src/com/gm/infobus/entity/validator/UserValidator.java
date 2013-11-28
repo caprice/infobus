@@ -29,13 +29,12 @@ public class UserValidator extends BaseValidator {
 	 * org.springframework.validation.Errors)
 	 */
 	public void validate(Object obj, Errors errors) {
-		ValidationUtils.rejectIfEmpty(errors, "accountName", "用户名不能为空.");
+		ValidationUtils.rejectIfEmpty(errors, "userName", "用户名不能为空.");
 		User user = (User) obj;
 		if (user.getPassword() == null || user.getPassword().length() < 3
 				|| user.getPassword().length() > 128) {
 			errors.rejectValue("password", "密码长度不能小于3位并且不能大于128位.");
-		}
-		if (!user.getPassword().equals(user.getrPassword())) {
+		}else if (!user.getPassword().equals(user.getrPassword())) {
 			errors.rejectValue("rPassword", "两次填写密码不一致.");
 		}
 //		if (!this.isValidEmail(user.getEmail())) {
@@ -44,7 +43,7 @@ public class UserValidator extends BaseValidator {
 //		if (!this.isValidMobileNumber(user.getMobile())) {
 //			errors.rejectValue("mobile", "不是一个正确的手机号码.");
 //		}
-		ValidationUtils.rejectIfEmpty(errors, "plate", "车牌号码不能为空.");
+//		ValidationUtils.rejectIfEmpty(errors, "plate", "车牌号码不能为空.");
 	}
 
 }

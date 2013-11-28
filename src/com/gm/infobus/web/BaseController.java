@@ -9,7 +9,11 @@ import net.sf.json.JsonConfig;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.util.ConstantUtils;
 
 
@@ -84,4 +88,13 @@ public abstract class BaseController {
 		return resData;
 	}
 
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseBody
+	public JsonResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException error ) {
+		JsonResponse response = new JsonResponse();
+		response.setResult(ConstantUtils.JSON.RESULT_VALIDATION_FAILED);
+		response.setData(error.getBindingResult().getAllErrors());
+		response.setMsg("Validation failed!");
+	   return response;
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gm.infobus.entity.User;
+import com.gm.infobus.entity.UserDetail;
 import com.gm.infobus.repository.UserDAO;
 import com.gm.infobus.repository.pagination.page.Pagination;
 import com.gm.infobus.service.UserService;
@@ -35,10 +36,9 @@ public class UserServiceImpl implements UserService {
 		return this.userDAO.findAllUsersWithPagination(rowBounds);
 	}
 
-
 	@Override
-	public boolean isAccountNameExisted(String accountName) {
-		int rows = userDAO.isAccountNameExisted(accountName);
+	public boolean isUserNameExisted(String userName) {
+		int rows = userDAO.isUserNameExisted(userName);
 		return rows > 0 ? true : false;
 	}
 
@@ -51,6 +51,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getLoginUser(User user) {
 		return userDAO.getLoginUser(user);
+	}
+
+	@Override
+	public int addUserDetail(UserDetail userDetail) {
+		return 0;
+	}
+
+	@Override
+	public int updateUserDetail(UserDetail userDetail) {
+		return 0;
 	}
 
 }
