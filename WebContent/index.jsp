@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function addNewUser() {
 		var p_url = '${contextPath}' + '/user/register.do';
-		var jsonuserinfo = $('#form').form2json();
+		var jsonuserinfo = $('#form').serializeObject();
 		console.log(jsonuserinfo);
 		doAjaxSubmit(p_url, jsonuserinfo, p_callback);
 	}
@@ -18,7 +18,7 @@
 		if (response.result == 0) {
 			$('#info').html(
 					"Plate has been added to the list successfully. -- "
-							+ response.data[0].plate);
+							+ response.data.userDetail.plate);
 			$('#error').hide('slow');
 			$('#info').show('slow');
 
@@ -63,7 +63,10 @@
 					<tr>
 						<td>请输入你的用户名 :</td>
 						<td><input type="text" id="userName" name="userName"
-							onblur="checkAccountExisted(this)"><br /></td>
+							onblur="checkAccountExisted(this)"><br />
+						<input type="hidden" id="userDetail.userName" name="userDetail.userName"
+							>	
+							</td>
 					</tr>
 					<tr>
 						<td>请填写一个昵称 :</td>

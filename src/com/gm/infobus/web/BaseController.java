@@ -9,20 +9,22 @@ import net.sf.json.JsonConfig;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.util.ConstantUtils;
 
-
 /**
-* @Description: 
-* @author liuwei
-* @date 2013年11月12日 下午3:28:34
-*
-*/
+ * @Description:
+ * @author liuwei
+ * @date 2013年11月12日 下午3:28:34
+ * 
+ */
 public abstract class BaseController {
 
 	protected Logger logger = Logger.getLogger(this.getClass());
@@ -35,7 +37,7 @@ public abstract class BaseController {
 
 	@Autowired
 	protected HttpServletRequest request;
-	
+
 	/**
 	 * 转JSON格式.
 	 * 
@@ -58,8 +60,7 @@ public abstract class BaseController {
 	 */
 	protected String toJSON(Object resultData, JsonConfig config) {
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(ConstantUtils.JSON.KEY_RESULT,
-				ConstantUtils.JSON.RESULT_OK);
+		jsonObj.put(ConstantUtils.JSON.KEY_RESULT, ConstantUtils.JSON.RESULT_OK);
 		jsonObj.put(ConstantUtils.JSON.KEY_DATA, resultData);
 		String resData = null;
 		if (config != null) {
@@ -80,8 +81,7 @@ public abstract class BaseController {
 	 */
 	protected String toJSONError(String errorMessage) {
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put(ConstantUtils.JSON.KEY_RESULT,
-				ConstantUtils.JSON.RESULT_FAILED);
+		jsonObj.put(ConstantUtils.JSON.KEY_RESULT, ConstantUtils.JSON.RESULT_FAILED);
 		jsonObj.put(ConstantUtils.JSON.KEY_MESSAGE, errorMessage);
 		String resData = JSONObject.fromObject(jsonObj).toString();
 		logger.debug(resData);
@@ -90,11 +90,22 @@ public abstract class BaseController {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
-	public JsonResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException error ) {
+	public JsonResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException error) {
 		JsonResponse response = new JsonResponse();
 		response.setResult(ConstantUtils.JSON.RESULT_VALIDATION_FAILED);
 		response.setData(error.getBindingResult().getAllErrors());
 		response.setMsg("Validation failed!");
-	   return response;
+		return response;
+	}
+
+	@ExceptionHandler(DataAccessException.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public JsonResponse handleException(DataAccessException ex) {
+		JsonResponse response = new JsonResponse();
+		response.setResult(ConstantUtils.JSON.RESULT_DB_ERROR);
+		response.setData(ex.getMessage());
+		response.setMsg("DB access Error!");
+		return response;
 	}
 }

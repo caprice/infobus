@@ -11,7 +11,7 @@ public interface UserService {
 
 	public List<User> findAllUsers(Pagination pagination);
 
-	public int addUser(User user);
+	public void addUser(User user);
 
 	public boolean isUserNameExisted(String userName);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
 	public User getLoginUser(User user);
 	
-	int addUserDetail(UserDetail userDetail);
+	void addUserDetail(UserDetail userDetail);
 
 	int updateUserDetail(UserDetail userDetail);
 }

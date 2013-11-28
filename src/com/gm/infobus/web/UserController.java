@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.DataBinder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,17 +47,18 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "register")
 	@ResponseBody
-	public JsonResponse addNewUser(@Valid @RequestBody User user) {
+	public JsonResponse addNewUser(@Valid User user, Errors validErrors) {
 		JsonResponse response = new JsonResponse();
 		user.setPassword(MD5.encode(user.getPassword()));
-		int userId = userService.addUser(user);
-		if (userId > 0) {
+		if (!validErrors.hasErrors()) {
+			userService.addUser(user);
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setData(user);
 			response.setMsg("注册成功!");
 		} else {
-			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
-			response.setMsg("注册用户失败，请检查你的网络是否连接!");
+			response.setResult(ConstantUtils.JSON.RESULT_VALIDATION_FAILED);
+			response.setData(validErrors.getAllErrors());
+			response.setMsg("Validation failed!");
 		}
 		return response;
 	}
@@ -114,8 +116,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse login(User userParam) {
 		JsonResponse response = new JsonResponse();
-		userParam.setPassword(MD5.encode(userParam.getPassword(),
-				ConstantUtils.SALT_KEY));
+		userParam.setPassword(MD5.encode(userParam.getPassword(), ConstantUtils.SALT_KEY));
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);

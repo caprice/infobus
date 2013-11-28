@@ -3,7 +3,7 @@ function doAjaxSubmit(p_url, p_data, p_callback) {
 		type : "POST",
 		url : p_url,
 		data : p_data,
-        contentType: "application/json; charset=utf-8",
+        dataType: "json",
 		beforeSend : function(XMLHttpRequest) {
 			// ShowLoading();
 		},
@@ -62,4 +62,21 @@ $.fn.form2json = function() {
 	var serializedParams = this.serialize();
 	var obj = paramString2obj(serializedParams);
 	return JSON.stringify(obj);
+};
+
+$.fn.serializeObject = function()
+{
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o;
 };

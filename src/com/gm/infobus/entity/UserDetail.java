@@ -2,16 +2,26 @@ package com.gm.infobus.entity;
 
 import java.io.Serializable;
 
-public class UserDetail implements Serializable{
-	
+public class UserDetail implements Serializable {
+
 	/**
-	* @Fields serialVersionUID
-	*/
+	 * @Fields serialVersionUID
+	 */
 	private static final long serialVersionUID = 2562869393144582910L;
 	private String userName;// 用户名
 	private String birth;// 出生年月日
-	private String idCard;
+	private String idCard;// 身份证
+	private String age;
 	private String location;// 地点
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
 	private String phone;// 手机号码
 	private String nickName;// 昵称
 	private String photo;// 用户照片

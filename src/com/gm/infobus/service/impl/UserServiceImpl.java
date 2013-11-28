@@ -25,14 +25,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int addUser(User user) {
-		return userDAO.addUser(user);
+	public void addUser(User user) {
+		userDAO.addUser(user);
+		if (user.getUserDetail() != null) {
+			user.getUserDetail().setUserName(user.getUserName());
+			userDAO.addUserDetail(user.getUserDetail());
+		}
 	}
 
 	@Override
 	public List<User> findAllUsers(Pagination pagination) {
-		RowBounds rowBounds = new RowBounds(pagination.getCurrentPage(),
-				pagination.getPageSize());
+		RowBounds rowBounds = new RowBounds(pagination.getCurrentPage(), pagination.getPageSize());
 		return this.userDAO.findAllUsersWithPagination(rowBounds);
 	}
 
@@ -54,8 +57,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int addUserDetail(UserDetail userDetail) {
-		return 0;
+	public void addUserDetail(UserDetail userDetail) {
+		userDAO.addUserDetail(userDetail);
 	}
 
 	@Override

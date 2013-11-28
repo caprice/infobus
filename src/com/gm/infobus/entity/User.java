@@ -2,8 +2,7 @@ package com.gm.infobus.entity;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @Description: A new class
@@ -39,12 +38,10 @@ public class User implements Serializable {
 		return name;
 	}
 
-	@JsonProperty
 	public final String getPassword() {
 		return password;
 	}
 
-	@JsonProperty
 	public final String getrPassword() {
 		return rPassword;
 	}
