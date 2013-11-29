@@ -22,7 +22,6 @@
 	</insert>
 
 	<update id="updateUserDetail" parameterType="UserDetail">
-		<![CDATA[
 		UPDATE didi_plate.userdetail
 		<set>
         <if test="age != null">username=#{username},</if>
@@ -38,7 +37,6 @@
         <if test="signature != null">bio=#{bio},</if>
         </set>
         WHERE username = #{userName}
-		]]>
 	</update>
 
 	<select id="findAllUsers" resultType="User">
@@ -57,7 +55,7 @@
 	<![CDATA[
 	select u.username, u.name, u.email, u.createDate, u.updateDate, ud.nickname, ud.plate, 
 	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location
-	from user u join userdetail ud on u.username = ud.username where u.username = ''
+	from user u join userdetail ud on u.username = ud.username
 	where username=#{username} and password=#{password}
 	]]>
 	</select>
@@ -68,12 +66,13 @@
 		<result property="email" column="email" />
 		<result property="createDate" column="createDate" />
 		<result property="update" column="updateDate" />
-		<association property="userDetail" javaType="UserDetail" resultMap="userDetailMap" />
+		<association property="userDetail" javaType="UserDetail"
+			resultMap="userDetailMap" />
 	</resultMap>
 
 	<resultMap id="userDetailMap" type="UserDetail">
 		<id property="userName" column="username" />
-		<result property="nickname" column="nickname" />
+		<result property="nickName" column="nickname" />
 		<result property="plate" column="plate" />
 		<result property="phone" column="phone" />
 		<result property="idcard" column="idcard" />
@@ -99,5 +98,15 @@
 		select count(*) from userdetail
 		where plate=#{plate}
 	]]>
+	</select>
+
+	<select id="getUsersByUserNames" resultMap="userResult">
+	select u.username, u.name, u.email, u.createDate, u.updateDate, ud.nickname, ud.plate, 
+	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location
+	from user u join userdetail ud on u.username = ud.username
+	where u.username in
+	 <foreach collection="array" item="userNames"  open="(" separator="," close=")">  
+        #{userNames}  
+     </foreach>  
 	</select>
 </mapper>  

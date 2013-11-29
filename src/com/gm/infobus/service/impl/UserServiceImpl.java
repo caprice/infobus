@@ -1,6 +1,8 @@
 package com.gm.infobus.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +66,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateUserDetail(UserDetail userDetail) {
 		return 0;
+	}
+
+	@Override
+	public Map<String, UserDetail> getUsersByUserNames(String[] userNames) {
+		List<User> users = userDAO.getUsersByUserNames(userNames);
+		Map<String, UserDetail> map = null;
+		if(users!= null){
+			map = new HashMap<String, UserDetail>();
+			for(User user : users){
+				UserDetail userDetail = user.getUserDetail();
+				if(userDetail != null){
+					userDetail.setEmail(user.getEmail());
+				}
+				map.put(user.getUserName(), userDetail);
+			}
+		}
+		return map;
 	}
 
 }

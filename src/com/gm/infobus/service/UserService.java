@@ -1,6 +1,7 @@
 package com.gm.infobus.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.gm.infobus.entity.User;
 import com.gm.infobus.entity.UserDetail;
@@ -22,4 +23,6 @@ public interface UserService {
 	void addUserDetail(UserDetail userDetail);
 
 	int updateUserDetail(UserDetail userDetail);
+
+	public Map<String, UserDetail> getUsersByUserNames(String[] userNames);
 }

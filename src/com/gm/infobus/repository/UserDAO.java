@@ -26,4 +26,6 @@ public interface UserDAO extends SqlMapper {
 	public int isPlateExisted(String plate);
 
 	public User getLoginUser(User user);
+
+	List<User> getUsersByUserNames(String[] userNames);
 }

@@ -1,6 +1,8 @@
 package com.gm.infobus.web;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -9,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gm.infobus.entity.User;
+import com.gm.infobus.entity.UserDetail;
 import com.gm.infobus.entity.validator.UserValidator;
 import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.service.UserService;
@@ -116,7 +120,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse login(User userParam) {
 		JsonResponse response = new JsonResponse();
-		userParam.setPassword(MD5.encode(userParam.getPassword(), ConstantUtils.SALT_KEY));
+		userParam.setPassword(MD5.encode(userParam.getPassword(),
+				ConstantUtils.SALT_KEY));
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
@@ -133,17 +138,51 @@ public class UserController extends BaseController {
 	/**
 	 * 
 	 * @param condition
-	 *            the condition
-	 * @return the object
+	 * @return JsonResponse
 	 */
-	@RequestMapping(value = "showAllUsers")
+	@RequestMapping(value = "getUsersByUserNames")
 	@ResponseBody
-	public String showAllUsers(@RequestBody User user) {
-		if (user == null) {
-			return toJSONError("参数有误");
+	public JsonResponse getUsersByUserNames(String[] userName) {
+		JsonResponse response = new JsonResponse();
+		Map<String, UserDetail> usersMap = userService.getUsersByUserNames(userName);
+		if (usersMap != null) {
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
+			response.setData(usersMap);
+			response.setMsg("Success.");
+		} else {
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
+			response.setMsg("用户名或者密码错误.");
 		}
-		List<User> users = userService.findAllUsers();
-		System.out.println(toJSON(users));
-		return toJSON(users);
+
+		return response;
 	}
+	
+    /**
+    * @Title: doFileUpload
+    * @Description: 上传用户图像
+    * @return:String
+    * @author: liuwei
+    * @date: 2013年11月29日
+    */
+    @ResponseBody
+    @RequestMapping(value ="/picUpload")
+    public JsonResponse doFileUpload(@RequestParam String userName, @RequestParam MultipartFile imgFile)
+            throws IllegalStateException, IOException {
+		JsonResponse response = new JsonResponse();
+        if (!imgFile.isEmpty()) {
+        	String path = "C:/GMServer/userProfile/";
+        	String extName = imgFile.getName().substring(imgFile.getName().lastIndexOf(".") + 1, imgFile.getName().length());
+        	if(extName.matches("(.jpeg|.jpg|.gif|.bmp|.png)(?i)")){
+        		
+        	}
+        	imgFile.transferTo(new File(path+"/"+userName));
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
+			response.setData(path);
+			response.setMsg("upload user photo successfully.");
+        } else {
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
+			response.setMsg("upload user photo failed.");
+        }
+        return response;
+    }
 }

@@ -48,6 +48,13 @@
 			}
 		});
 	}
+	
+	$(document).ready(function(){
+		  $("uploadPic").click(function(){
+			  var url = '${contextPath}' + '/user/picUpload.do';
+			  
+		  });
+		});
 </script>
 <title>用户注册</title>
 <body>
@@ -112,6 +119,14 @@
 
 				</table>
 			</form>
+		</div>
+		<div>
+		<form  method="POST" enctype="multipart/form-data">  
+   			 username: <input type="text" name="userName"/><br/>  
+    		your photo: <input type="file" name="file"/><br/>  
+    		<input type="button" id="uploadPic" value="为用户添加图片"/>  
+		</form>
+		
 		</div>
 	</div>
 </body>

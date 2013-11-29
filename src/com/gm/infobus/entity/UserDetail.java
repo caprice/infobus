@@ -29,6 +29,7 @@ public class UserDetail implements Serializable {
 	private String profession;// 职业
 	private String sex;// 性别：0-男 1-女
 	private String signature;// 个人签名
+	private String email;
 
 	public final String getUserName() {
 		return userName;
@@ -116,5 +117,13 @@ public class UserDetail implements Serializable {
 
 	public final void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public final String getEmail() {
+		return email;
+	}
+
+	public final void setEmail(String email) {
+		this.email = email;
 	}
 }
