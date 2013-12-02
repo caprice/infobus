@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.util.ConstantUtils;
@@ -106,6 +107,22 @@ public abstract class BaseController {
 		response.setResult(ConstantUtils.JSON.RESULT_DB_ERROR);
 		response.setData(ex.getMessage());
 		response.setMsg("DB access Error!");
+		return response;
+	}
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public JsonResponse handleMaxUploadSizeExceededException(Exception ex) {
+		JsonResponse response = new JsonResponse();
+		response.setResult(ConstantUtils.JSON.RESULT_FAILED);
+		response.setData(ex.getMessage());
+		if(ex instanceof MaxUploadSizeExceededException){
+			response.setMsg("Maximum upload size of "+((MaxUploadSizeExceededException)ex).getMaxUploadSize()+ "bytes exceeded");
+		}else{
+			response.setMsg(ex.getMessage());
+		}
+
 		return response;
 	}
 }

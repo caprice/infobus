@@ -50,9 +50,28 @@
 	}
 	
 	$(document).ready(function(){
-		  $("uploadPic").click(function(){
+		  $("#uploadPic1").click(function(){
 			  var url = '${contextPath}' + '/user/picUpload.do';
-			  
+			  var data = $('#upload').serializeObject();
+			  console.log("fiel",data);
+				$.ajax({
+					type : "POST",
+					url : url,
+					data:data,
+					enctype: 'multipart/form-data',
+					beforeSend : function(XMLHttpRequest) {
+						// ShowLoading();
+					},
+					success : function(data) {
+						alert(data);
+					},
+					complete : function(XMLHttpRequest, textStatus) {
+						// HideLoading();
+					},
+					error : function() {
+						// 请求出错处理
+					}
+				});
 		  });
 		});
 </script>
@@ -121,10 +140,10 @@
 			</form>
 		</div>
 		<div>
-		<form  method="POST" enctype="multipart/form-data">  
+		<form  action="${contextPath}/user/picUpload.do" method="POST" id="upload" enctype="multipart/form-data">  
    			 username: <input type="text" name="userName"/><br/>  
-    		your photo: <input type="file" name="file"/><br/>  
-    		<input type="button" id="uploadPic" value="为用户添加图片"/>  
+    		your photo: <input type="file" name="imgFile" id="imgFile"/><br/>  
+    		<input type="submit" id="uploadPic" value="为用户添加图片"/>  
 		</form>
 		
 		</div>

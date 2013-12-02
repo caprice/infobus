@@ -24,17 +24,18 @@
 	<update id="updateUserDetail" parameterType="UserDetail">
 		UPDATE didi_plate.userdetail
 		<set>
-        <if test="age != null">username=#{username},</if>
-        <if test="birth != null">password=#{password},</if>
-        <if test="idcard != null">email=#{email},</if>
-        <if test="location != null">bio=#{bio},</if>
-        <if test="nickname != null">bio=#{bio},</if>
-        <if test="location != null">bio=#{bio},</if>
-        <if test="phone != null">bio=#{bio},</if>
-        <if test="plate != null">bio=#{bio},</if>
-        <if test="profession != null">bio=#{bio},</if>
-        <if test="sex != null">bio=#{bio},</if>
-        <if test="signature != null">bio=#{bio},</if>
+        <if test="age != null">age=#{age},</if>
+        <if test="birth != null">birth=#{birth},</if>
+        <if test="idCard != null">idcard=#{idCard},</if>
+        <if test="location != null">location=#{location},</if>
+        <if test="nickName != null">nickname=#{nicName},</if>
+        <if test="location != null">location=#{location},</if>
+        <if test="phone != null">phone=#{phone},</if>
+        <if test="plate != null">plate=#{plate},</if>
+        <if test="photo != null">photo=#{photo},</if>
+        <if test="profession != null">profession=#{profession},</if>
+        <if test="sex != null">sex=#{sex},</if>
+        <if test="signature != null">signature=#{signature},</if>
         </set>
         WHERE username = #{userName}
 	</update>
@@ -82,6 +83,7 @@
 		<result property="profession" column="profession" />
 		<result property="signature" column="signature" />
 		<result property="location" column="location" />
+		<result property="photo" column="photo" />
 	</resultMap>
 
 	<select id="isUserNameExisted" parameterType="java.lang.String"
@@ -102,7 +104,7 @@
 
 	<select id="getUsersByUserNames" resultMap="userResult">
 	select u.username, u.name, u.email, u.createDate, u.updateDate, ud.nickname, ud.plate, 
-	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location
+	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location, ud.photo
 	from user u join userdetail ud on u.username = ud.username
 	where u.username in
 	 <foreach collection="array" item="userNames"  open="(" separator="," close=")">  

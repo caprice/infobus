@@ -21,8 +21,8 @@ import com.gm.infobus.entity.UserDetail;
 import com.gm.infobus.entity.validator.UserValidator;
 import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.service.UserService;
+import com.gm.infobus.util.ConfigManager;
 import com.gm.infobus.util.ConstantUtils;
-import com.gm.infobus.util.MD5;
 
 /**
  * @Description:
@@ -53,7 +53,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse addNewUser(@Valid User user, Errors validErrors) {
 		JsonResponse response = new JsonResponse();
-		user.setPassword(MD5.encode(user.getPassword()));
+//		user.setPassword(MD5.encode(user.getPassword()));
 		if (!validErrors.hasErrors()) {
 			userService.addUser(user);
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
@@ -120,8 +120,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse login(User userParam) {
 		JsonResponse response = new JsonResponse();
-		userParam.setPassword(MD5.encode(userParam.getPassword(),
-				ConstantUtils.SALT_KEY));
+//		userParam.setPassword(MD5.encode(userParam.getPassword(), ConstantUtils.SALT_KEY));
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
@@ -156,33 +155,41 @@ public class UserController extends BaseController {
 
 		return response;
 	}
-	
-    /**
-    * @Title: doFileUpload
-    * @Description: 上传用户图像
-    * @return:String
-    * @author: liuwei
-    * @date: 2013年11月29日
-    */
-    @ResponseBody
-    @RequestMapping(value ="/picUpload")
-    public JsonResponse doFileUpload(@RequestParam String userName, @RequestParam MultipartFile imgFile)
-            throws IllegalStateException, IOException {
+
+	/**
+	 * @Title: doFileUpload
+	 * @Description: 上传用户图像
+	 * @return:String
+	 * @author: liuwei
+	 * @date: 2013年11月29日
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/picUpload")
+	public JsonResponse doFileUpload(@RequestParam String userName, @RequestParam MultipartFile imgFile) throws IllegalStateException, IOException {
 		JsonResponse response = new JsonResponse();
-        if (!imgFile.isEmpty()) {
-        	String path = "C:/GMServer/userProfile/";
-        	String extName = imgFile.getName().substring(imgFile.getName().lastIndexOf(".") + 1, imgFile.getName().length());
-        	if(extName.matches("(.jpeg|.jpg|.gif|.bmp|.png)(?i)")){
-        		
-        	}
-        	imgFile.transferTo(new File(path+"/"+userName));
-			response.setResult(ConstantUtils.JSON.RESULT_OK);
-			response.setData(path);
-			response.setMsg("upload user photo successfully.");
-        } else {
+		if (!imgFile.isEmpty()) {
+			String path = ConfigManager.getInstance().getConfigItem("upload.path", "");
+			String originalFilename = imgFile.getOriginalFilename();
+			int extIndex = originalFilename.lastIndexOf(".");
+			String extName = originalFilename.substring(extIndex);
+			if (extName.matches(ConfigManager.getInstance().getConfigItem("file.allow.extName", "(.jpeg|.jpg|.gif|.bmp|.png)(?i)"))) {
+				File newFile = new File(path + userName + extName);
+				imgFile.transferTo(newFile);
+				UserDetail detail = new UserDetail();
+				detail.setUserName(userName);
+				detail.setPhoto(ConfigManager.getInstance().getConfigItem("content.server.userProfile.url", "") + newFile.getName());
+				userService.updateUserDetail(detail);
+				response.setResult(ConstantUtils.JSON.RESULT_OK);
+				response.setData(ConfigManager.getInstance().getConfigItem("content.server.userProfile.url", "") + newFile.getName());
+				response.setMsg("upload user photo successfully.");
+			}else{
+				response.setResult(ConstantUtils.JSON.RESULT_FAILED);
+				response.setMsg("上传文件后缀名不正确, 应为.jpeg, jpg, gif, bmp, png中的一种.");
+			}
+		} else {
 			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("upload user photo failed.");
-        }
-        return response;
-    }
+		}
+		return response;
+	}
 }

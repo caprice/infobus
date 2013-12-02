@@ -19,6 +19,7 @@ CREATE TABLE didi_plate.userdetail (
   plate VARCHAR(50) NULL ,
   phone VARCHAR(50) NULL ,
   idcard varchar(30) NULL,
+  photo varchar(80) NULL,
   sex SMALLINT NULL ,
   age INT NULL ,
   birth varchar(20),
