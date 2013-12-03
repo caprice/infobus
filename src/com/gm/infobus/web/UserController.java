@@ -180,7 +180,7 @@ public class UserController extends BaseController {
 				detail.setPhoto(ConfigManager.getInstance().getConfigItem("content.server.userProfile.url", "") + newFile.getName());
 				userService.updateUserDetail(detail);
 				response.setResult(ConstantUtils.JSON.RESULT_OK);
-				response.setData(ConfigManager.getInstance().getConfigItem("content.server.userProfile.url", "") + newFile.getName());
+				response.setData(detail);
 				response.setMsg("upload user photo successfully.");
 			}else{
 				response.setResult(ConstantUtils.JSON.RESULT_FAILED);
