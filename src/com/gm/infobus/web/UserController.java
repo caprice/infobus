@@ -58,7 +58,7 @@ public class UserController extends BaseController {
 	public JsonResponse addNewUser(@Valid User user, Errors validErrors) {
 		JsonResponse response = new JsonResponse();
 		String passwordType = ConfigManager.getInstance().getConfigItem("password.type", "");
-		if(passwordType.equalsIgnoreCase("MD5")){
+		if (passwordType.equalsIgnoreCase("MD5")) {
 			user.setPassword(MD5.encode(user.getPassword()));
 		}
 		if (!validErrors.hasErrors()) {
@@ -127,7 +127,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse login(User userParam) {
 		JsonResponse response = new JsonResponse();
-//		userParam.setPassword(MD5.encode(userParam.getPassword(), ConstantUtils.SALT_KEY));
+		// userParam.setPassword(MD5.encode(userParam.getPassword(),
+		// ConstantUtils.SALT_KEY));
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
@@ -137,6 +138,47 @@ public class UserController extends BaseController {
 			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("用户名或者密码错误.");
 		}
+
+		return response;
+	}
+	
+	/**
+	 * 
+	 * @param condition
+	 *            the condition
+	 * @return the object
+	 */
+	@RequestMapping(value = "getUserByPlate")
+	@ResponseBody
+	public JsonResponse getUserByPlate(String plate) {
+		JsonResponse response = new JsonResponse();
+		// userParam.setPassword(MD5.encode(userParam.getPassword(),
+		// ConstantUtils.SALT_KEY));
+		User user = userService.getUserByPlate(plate);
+		response.setResult(ConstantUtils.JSON.RESULT_OK);
+		if (user != null) {
+			response.setData(user);
+			response.setMsg("找到对应的用户信息.");
+		} else {
+			response.setMsg("车牌没有注册，找不到对应的用户.");
+		}
+
+		return response;
+	}
+
+	/**
+	 * 
+	 * @param condition
+	 *            the condition
+	 * @return the object
+	 */
+	@RequestMapping(value = "userDetailModify")
+	@ResponseBody
+	public JsonResponse updateUserDetail(User user) {
+		JsonResponse response = new JsonResponse();
+		userService.updateUserDetail(user.getUserDetail());
+		response.setData(user.getUserDetail());
+		response.setMsg("修改用户签名成功.");
 
 		return response;
 	}
@@ -180,11 +222,11 @@ public class UserController extends BaseController {
 			int extIndex = originalFilename.lastIndexOf(".");
 			String extName = originalFilename.substring(extIndex);
 			if (extName.matches(ConfigManager.getInstance().getConfigItem("file.allow.extName", "(.jpeg|.jpg|.gif|.bmp|.png)(?i)"))) {
-				Map<String, UserDetail> userMap= userService.getUsersByUserNames(new String[]{userName});
+				Map<String, UserDetail> userMap = userService.getUsersByUserNames(new String[] { userName });
 				UserDetail existedUserDetail = userMap.get(userName);
-				if(existedUserDetail != null){
-					String lastUserPicName =  existedUserDetail.getPhoto();
-					if(StringUtils.isNotEmpty(lastUserPicName)){
+				if (existedUserDetail != null) {
+					String lastUserPicName = existedUserDetail.getPhoto();
+					if (StringUtils.isNotEmpty(lastUserPicName)) {
 						int lastSlashIndex = lastUserPicName.lastIndexOf("/");
 						String lastFileName = lastUserPicName.substring(lastSlashIndex + 1);
 						FileManager fileManager = new FileManager();
@@ -201,7 +243,7 @@ public class UserController extends BaseController {
 				response.setResult(ConstantUtils.JSON.RESULT_OK);
 				response.setData(detail);
 				response.setMsg("upload user photo successfully.");
-			}else{
+			} else {
 				response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 				response.setMsg("上传文件后缀名不正确, 应为.jpeg, jpg, gif, bmp, png中的一种.");
 			}
@@ -216,8 +258,7 @@ public class UserController extends BaseController {
 		String timeStamp = String.valueOf(Calendar.getInstance().getTimeInMillis());
 		return path + userName + "_" + timeStamp + extName;
 	}
-	
-	
+
 	/**
 	 * @Title: doChatVoiceUpload
 	 * @Description: 语音消息上传
@@ -234,16 +275,16 @@ public class UserController extends BaseController {
 			String originalFilename = voiceFile.getOriginalFilename();
 			int extIndex = originalFilename.lastIndexOf(".");
 			String extName = originalFilename.substring(extIndex);
-				String fileName = getFileName(path, userName, extName);
-				File newFile = new File(fileName);
-				voiceFile.transferTo(newFile);
-				UserDetail detail = new UserDetail();
-				detail.setUserName(userName);
-				detail.setCurVoiceUrl(ConfigManager.getInstance().getConfigItem("content.server.voiceMsg.url", "") + newFile.getName());
-				userService.updateUserDetail(detail);
-				response.setResult(ConstantUtils.JSON.RESULT_OK);
-				response.setData(detail);
-				response.setMsg("upload voice message successfully.");
+			String fileName = getFileName(path, userName, extName);
+			File newFile = new File(fileName);
+			voiceFile.transferTo(newFile);
+			UserDetail detail = new UserDetail();
+			detail.setUserName(userName);
+			detail.setCurVoiceUrl(ConfigManager.getInstance().getConfigItem("content.server.voiceMsg.url", "") + newFile.getName());
+			userService.updateUserDetail(detail);
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
+			response.setData(detail);
+			response.setMsg("upload voice message successfully.");
 		} else {
 			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("upload voice message failed.");

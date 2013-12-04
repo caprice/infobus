@@ -25,4 +25,6 @@ public interface UserService {
 	int updateUserDetail(UserDetail userDetail);
 
 	public Map<String, UserDetail> getUsersByUserNames(String[] userNames);
+
+	public User getUserByPlate(String plate);
 }

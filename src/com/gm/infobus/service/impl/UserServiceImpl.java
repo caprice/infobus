@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService {
 		return map;
 	}
 
+	@Override
+	public User getUserByPlate(String plate) {
+		return userDAO.getUserByPlate(plate);
+	}
+
 }

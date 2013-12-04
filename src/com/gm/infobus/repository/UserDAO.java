@@ -28,4 +28,6 @@ public interface UserDAO extends SqlMapper {
 	public User getLoginUser(User user);
 
 	List<User> getUsersByUserNames(String[] userNames);
+
+	User getUserByPlate(String plate);
 }
