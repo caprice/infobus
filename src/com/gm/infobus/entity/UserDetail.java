@@ -13,15 +13,6 @@ public class UserDetail implements Serializable {
 	private String idCard;// 身份证
 	private String age;
 	private String location;// 地点
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
 	private String phone;// 手机号码
 	private String nickName;// 昵称
 	private String photo;// 用户照片
@@ -30,6 +21,7 @@ public class UserDetail implements Serializable {
 	private String sex;// 性别：0-男 1-女
 	private String signature;// 个人签名
 	private String email;
+	private String curVoiceUrl;//本次发送语音url
 
 	public final String getUserName() {
 		return userName;
@@ -126,4 +118,21 @@ public class UserDetail implements Serializable {
 	public final void setEmail(String email) {
 		this.email = email;
 	}
+
+	public final String getCurVoiceUrl() {
+		return curVoiceUrl;
+	}
+
+	public final void setCurVoiceUrl(String curVoiceUrl) {
+		this.curVoiceUrl = curVoiceUrl;
+	}
+	
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
 }

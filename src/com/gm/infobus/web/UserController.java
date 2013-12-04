@@ -2,10 +2,12 @@ package com.gm.infobus.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.DataBinder;
@@ -23,6 +25,8 @@ import com.gm.infobus.json.JsonResponse;
 import com.gm.infobus.service.UserService;
 import com.gm.infobus.util.ConfigManager;
 import com.gm.infobus.util.ConstantUtils;
+import com.gm.infobus.util.FileManager;
+import com.gm.infobus.util.MD5;
 
 /**
  * @Description:
@@ -53,7 +57,10 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse addNewUser(@Valid User user, Errors validErrors) {
 		JsonResponse response = new JsonResponse();
-//		user.setPassword(MD5.encode(user.getPassword()));
+		String passwordType = ConfigManager.getInstance().getConfigItem("password.type", "");
+		if(passwordType.equalsIgnoreCase("MD5")){
+			user.setPassword(MD5.encode(user.getPassword()));
+		}
 		if (!validErrors.hasErrors()) {
 			userService.addUser(user);
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
@@ -173,7 +180,19 @@ public class UserController extends BaseController {
 			int extIndex = originalFilename.lastIndexOf(".");
 			String extName = originalFilename.substring(extIndex);
 			if (extName.matches(ConfigManager.getInstance().getConfigItem("file.allow.extName", "(.jpeg|.jpg|.gif|.bmp|.png)(?i)"))) {
-				File newFile = new File(path + userName + extName);
+				Map<String, UserDetail> userMap= userService.getUsersByUserNames(new String[]{userName});
+				UserDetail existedUserDetail = userMap.get(userName);
+				if(existedUserDetail != null){
+					String lastUserPicName =  existedUserDetail.getPhoto();
+					if(StringUtils.isNotEmpty(lastUserPicName)){
+						int lastSlashIndex = lastUserPicName.lastIndexOf("/");
+						String lastFileName = lastUserPicName.substring(lastSlashIndex + 1);
+						FileManager fileManager = new FileManager();
+						fileManager.deleteTarget(path + lastFileName);
+					}
+				}
+				String fileName = getFileName(path, userName, extName);
+				File newFile = new File(fileName);
 				imgFile.transferTo(newFile);
 				UserDetail detail = new UserDetail();
 				detail.setUserName(userName);
@@ -192,4 +211,44 @@ public class UserController extends BaseController {
 		}
 		return response;
 	}
+
+	private String getFileName(String path, String userName, String extName) {
+		String timeStamp = String.valueOf(Calendar.getInstance().getTimeInMillis());
+		return path + userName + "_" + timeStamp + extName;
+	}
+	
+	
+	/**
+	 * @Title: doChatVoiceUpload
+	 * @Description: 语音消息上传
+	 * @return:String
+	 * @author: liuwei
+	 * @date: 2013年11月29日
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/chatVoiceUpload")
+	public JsonResponse doChatVoiceUpload(@RequestParam String userName, @RequestParam MultipartFile voiceFile) throws IllegalStateException, IOException {
+		JsonResponse response = new JsonResponse();
+		if (!voiceFile.isEmpty()) {
+			String path = ConfigManager.getInstance().getConfigItem("upload.voiceMsg.path", "");
+			String originalFilename = voiceFile.getOriginalFilename();
+			int extIndex = originalFilename.lastIndexOf(".");
+			String extName = originalFilename.substring(extIndex);
+				String fileName = getFileName(path, userName, extName);
+				File newFile = new File(fileName);
+				voiceFile.transferTo(newFile);
+				UserDetail detail = new UserDetail();
+				detail.setUserName(userName);
+				detail.setCurVoiceUrl(ConfigManager.getInstance().getConfigItem("content.server.voiceMsg.url", "") + newFile.getName());
+				userService.updateUserDetail(detail);
+				response.setResult(ConstantUtils.JSON.RESULT_OK);
+				response.setData(detail);
+				response.setMsg("upload voice message successfully.");
+		} else {
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
+			response.setMsg("upload voice message failed.");
+		}
+		return response;
+	}
+
 }
