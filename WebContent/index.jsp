@@ -147,6 +147,15 @@
 		</form>
 		
 		</div>
+		
+		<div>
+		<form  action="${contextPath}/user/chatVoiceUpload.do" method="POST" id="upload" enctype="multipart/form-data">  
+   			 username: <input type="text" name="userName"/><br/>  
+    		语音: <input type="file" name="voiceFile" id="voiceFile"/><br/>  
+    		<input type="submit" id="uploadVoice" value="上传语音"/>  
+		</form>
+		
+		</div>
 	</div>
 </body>
 </html>

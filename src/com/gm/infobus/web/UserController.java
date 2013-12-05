@@ -155,11 +155,12 @@ public class UserController extends BaseController {
 		// userParam.setPassword(MD5.encode(userParam.getPassword(),
 		// ConstantUtils.SALT_KEY));
 		User user = userService.getUserByPlate(plate);
-		response.setResult(ConstantUtils.JSON.RESULT_OK);
 		if (user != null) {
+			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setData(user);
-			response.setMsg("找到对应的用户信息.");
+			response.setMsg("找到注册的用户信息.");
 		} else {
+			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("车牌没有注册，找不到对应的用户.");
 		}
 
@@ -281,7 +282,6 @@ public class UserController extends BaseController {
 			UserDetail detail = new UserDetail();
 			detail.setUserName(userName);
 			detail.setCurVoiceUrl(ConfigManager.getInstance().getConfigItem("content.server.voiceMsg.url", "") + newFile.getName());
-			userService.updateUserDetail(detail);
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
 			response.setData(detail);
 			response.setMsg("upload voice message successfully.");

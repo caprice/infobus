@@ -76,7 +76,7 @@
 		<result property="nickName" column="nickname" />
 		<result property="plate" column="plate" />
 		<result property="phone" column="phone" />
-		<result property="idcard" column="idcard" />
+		<result property="idCard" column="idcard" />
 		<result property="sex" column="sex" />
 		<result property="age" column="age" />
 		<result property="birth" column="birth" />
