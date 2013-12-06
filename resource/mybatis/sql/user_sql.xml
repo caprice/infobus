@@ -55,9 +55,9 @@
 	<select id="getLoginUser" parameterType="User" resultMap="userResult">
 	<![CDATA[
 	select u.username, u.name, u.email, u.createDate, u.updateDate, ud.nickname, ud.plate, 
-	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location
+	ud.phone, ud.idcard, ud.sex, ud.age, ud.birth, ud.profession, ud.signature,ud.location, ud.photo
 	from user u join userdetail ud on u.username = ud.username
-	where username=#{username} and password=#{password}
+	where u.username=#{userName} and u.password=#{password}
 	]]>
 	</select>
 

@@ -3,6 +3,7 @@ package com.gm.infobus.web;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -127,21 +128,27 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public JsonResponse login(User userParam) {
 		JsonResponse response = new JsonResponse();
-		// userParam.setPassword(MD5.encode(userParam.getPassword(),
-		// ConstantUtils.SALT_KEY));
+		String passwordType = ConfigManager.getInstance().getConfigItem("password.type", "");
+		if (passwordType.equalsIgnoreCase("MD5")) {
+			userParam.setPassword(MD5.encode(userParam.getPassword()));
+		}
 		User user = userService.getLoginUser(userParam);
 		if (user != null) {
 			response.setResult(ConstantUtils.JSON.RESULT_OK);
-			response.setData(user);
+			Map<String, UserDetail> usersMap = new HashMap<String, UserDetail>();
+			UserDetail userDetail = user.getUserDetail();
+			userDetail.setEmail(user.getEmail());
+			usersMap.put(user.getUserName(), userDetail);
+			response.setData(usersMap);
 			response.setMsg("登录成功.");
+			session.setAttribute("IB_USER", user);
 		} else {
 			response.setResult(ConstantUtils.JSON.RESULT_FAILED);
 			response.setMsg("用户名或者密码错误.");
 		}
-
 		return response;
 	}
-	
+
 	/**
 	 * 
 	 * @param condition
